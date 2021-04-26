@@ -34,8 +34,13 @@ E= 680.039 e N= 6.989.988, ponto 5, de c.p.a. E= 680.028 e N= 6.990.007, ponto 6
 
 # Extraindo longitude (E) e latitude (N)
 # \d = Qualquer dígito; \s = Whitespace (https://docs.python.org/3/library/re.html)
+# Exemplo para formato E= 698.034 e N= 6.980.760
 e_raw = re.findall(r'E=\s[\d\.-]+[\d]', texto)
 n_raw = re.findall(r'N=\s[\d\.-]+[\d\.-]+[\d]', texto)
+
+# Exemplo para formato E= 698034 e N= 6980760
+#e_raw = re.findall(r'E=\s\d\d\d\d\d\d', texto)
+#n_raw = re.findall(r'N=\s\d\d\d\d\d\d\d', texto)
 
 if len(e_raw) != len(n_raw):
     sys.exit('Erro na quantidade de coordenadas obtidas.')
