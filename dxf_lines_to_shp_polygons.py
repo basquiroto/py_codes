@@ -17,7 +17,7 @@ for i in list_files:
 
     # Save selected features
     processing.run("qgis:selectbyexpression", {'INPUT': layer,'EXPRESSION':'"Layer" = \'LIMIT\' or  "Layer" = \'LIMITS\''})
-    #layer.selectByExpression(u'"Layer" = \'LOTES\'') # This works, but I wasn't able save it as temporary output
+    #layer.selectByExpression(u'"Layer" = \'LIMITS\'') # This works, but I wasn't able save it as temporary output
     
     if layer.wkbType() != 2 and layer.wkbType() != 1002: # 2: LineString, 1002: LineStringZ
         err_layers.append(i)
