@@ -1,3 +1,8 @@
+"""
+Convert DXF Line files to a unique SHP Polygon file using QGIS. 
+Author: Fernando Basquiroto de Souza.
+"""
+
 import os
 from qgis import processing
 
