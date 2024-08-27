@@ -128,3 +128,9 @@ reg3.fit(agua[['ferro', 'ph', 'manganes']], agua['sulfato'])
 a3, b3, b4, b5 = reg3.intercept_, reg3.coef_[0], reg3.coef_[1], reg3.coef_[2]
 print(f"y = {round(a3, 4)} + {round(b3,4)}*x + {round(b4,4)}*x + {round(b5,4)}*x")
 # %%
+x3_pred = reg3.predict(agua[['ferro', 'ph', 'manganes']])
+x3_true = agua['sulfato']
+# %%
+from sklearn.metrics import r2_score
+# %%
+r2_score(x3_true, x3_pred)
