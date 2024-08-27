@@ -98,8 +98,8 @@ agua = pd.read_csv(file_path + 'dados_agua_bcsc.csv', sep=';', decimal=',')
 reg2 = linear_model.LinearRegression()
 reg2.fit(agua[['ferro']], agua['sulfato'])
 
-a2, b2 = reg2.intercept_, reg.coef_[0]
-print(f"y = {round(b2[0], 4)} + {round(a2,4)}*x")
+a2, b2 = reg2.intercept_, reg2.coef_[0]
+print(f"y = {round(a2, 4)} + {round(b2,4)}*x")
 
 s_estimado = reg2.predict(agua[['ferro']])
 # %%
@@ -120,4 +120,11 @@ plt.ylabel('Sulfatos (mg/L)')
 plt.legend(["Observações", "Regressão Linear", "Árvore de Decisão"])
 plt.show()
 
+# %%
+# Aplicando com mais dados (Fe + Mn + pH --> Sulfatos)
+reg3 = linear_model.LinearRegression()
+reg3.fit(agua[['ferro', 'ph', 'manganes']], agua['sulfato'])
+
+a3, b3, b4, b5 = reg3.intercept_, reg3.coef_[0], reg3.coef_[1], reg3.coef_[2]
+print(f"y = {round(a3, 4)} + {round(b3,4)}*x + {round(b4,4)}*x + {round(b5,4)}*x")
 # %%
