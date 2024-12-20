@@ -1,0 +1,10 @@
+[
+    {
+        "table": "tb_candidaturas",
+        "path": "C:/Users/ferna/Downloads/consulta_cand_2024_SC.csv"
+    },
+    {
+        "table": "tb_bens",
+        "path": "C:/Users/ferna/Downloads/bem_candidato_2024_SC.csv"
+    }
+]
