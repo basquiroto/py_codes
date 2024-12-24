@@ -59,6 +59,7 @@ municipios.plot(column='txGenFeminino',
                 legend=True,
                 cmap='YlGn',
                 edgecolor='black',
+                linewidth=0.5,
                 zorder=3,
                 legend_kwds={"label": "Taxa de Mulheres (Eleições 2024)", 
                              "orientation": "horizontal",
@@ -68,6 +69,10 @@ top_five = municipios[['NM_MUN', 'txGenFeminino']].nlargest(5, 'txGenFeminino').
 
 top_text = "\n".join([f'{i+1}. {row['NM_MUN']} ({row['txGenFeminino']})' for i, row in top_five.iterrows()])
 plt.text(-54, -28.75, top_text, fontsize=11, verticalalignment='top', horizontalalignment='left', bbox=dict(facecolor='white', alpha=0.8))
+
+plt.title('Taxa de Mulheres nas Eleições de 2024', fontsize=14, color='black', style='italic', loc='left')
+
+plt.savefig("./sc_eleicoes_2024_mulheres.png")
 
 # %%
 tx_extent = 0.005
@@ -91,6 +96,7 @@ municipios.plot(column='txCorRacaPreta',
                 legend=True,
                 cmap='YlGn',
                 edgecolor='black',
+                linewidth=0.5,
                 zorder=3,
                 legend_kwds={"label": "Taxa de Pessoas Pretas (Eleições 2024)", 
                              "orientation": "horizontal",
@@ -100,3 +106,59 @@ top_five = municipios[['NM_MUN', 'txCorRacaPreta']].nlargest(5, 'txCorRacaPreta'
 
 top_text = "\n".join([f'{i+1}. {row['NM_MUN']} ({row['txCorRacaPreta']})' for i, row in top_five.iterrows()])
 plt.text(-54, -28.75, top_text, fontsize=11, verticalalignment='top', horizontalalignment='left', bbox=dict(facecolor='white', alpha=0.8))
+
+plt.title('Taxa de Pessoas Pretas nas Eleições de 2024', fontsize=14, color='black', style='italic', loc='left')
+
+plt.savefig("./sc_eleicoes_2024_pessoas_pretas.png")
+
+# %%
+from sklearn import cluster
+
+# %%
+X = municipios[['txGenFeminino', 'txCorRacaPreta']]
+model = cluster.KMeans(n_clusters=6)
+model.fit(X)
+
+municipios['clusters'] = model.labels_
+
+# %%
+tx_extent = 0.005
+
+fig, ax = plt.subplots(figsize = (9,9))
+xlim = ([xmin*(1+tx_extent), xmax*(1-tx_extent)])
+ylim = ([ymin*(1+tx_extent), ymax*(1-tx_extent)])
+
+ax.set_xlim(xlim)
+ax.set_ylim(ylim)
+
+basemap = br_shp.plot(color='white',
+                      ax=ax, 
+                      edgecolor='black', 
+                      linewidth=0.5,
+                      zorder=2)
+
+oceano.plot(ax=ax, color="#d4f1f4", zorder=1)
+
+# https://github.com/geopandas/geopandas/issues/1269
+# https://sashamaps.net/docs/resources/20-colors/
+colors = {
+    0: "#fabed4",
+    1: "#ffd8b1",
+    2: "#fffac8",
+    3: "#aaffc3",
+    4: "#dcbeff",
+    5: "#42d4f4"
+}
+
+municipios.plot(column='clusters',
+                ax=ax,
+                edgecolor='black',
+                linewidth=0.5,
+                color=municipios['clusters'].map(colors),
+                zorder=3)
+
+plt.suptitle('Distribuição de Clusters\n', fontsize=14, color='black', style='italic', y=0.8075, x=0.25)
+plt.title('Clusters criados a partir da taxa de mulheres e pessoas pretas nas eleições de 2024.', fontsize=8, color='black', loc='left')
+
+# %%
+municipios.explore(column='clusters', color=municipios['clusters'].map(colors))
