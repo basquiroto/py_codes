@@ -35,6 +35,8 @@ SELECT NM_UE,
        SUM(CASE WHEN DS_COR_RACA IN ('PRETA', 'PARDA') THEN 1 ELSE 0 END) AS totalCorRacaPretaParda,
        ROUND(AVG(CASE WHEN DS_COR_RACA <> 'BRANCA' THEN 1 ELSE 0 END), 4) AS txCorRacaNaoBranca,
        SUM(CASE WHEN DS_COR_RACA <> 'BRANCA' THEN 1 ELSE 0 END) AS totalCorRacaNaoBranca,
+       ROUND(SUM(total_bens)/COUNT(*), 2) AS mediaBensPorCand,
+       ROUND(SUM(total_bens), 2) AS somaTotalBens,
        COUNT(*) AS totalCandidaturas
        FROM tb_all_info_cand
        GROUP BY 1
